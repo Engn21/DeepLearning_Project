@@ -73,7 +73,7 @@ During the token embedding phase, the identity of all characters is translated i
 
 This is applied in the code line below:
 
-tok_emb = self.wte(idx)
+`tok_emb = self.wte(idx)`
 
  In this case, idx is a character ID tensor of size (B, T) and the result of this line is an embedding tensor of size (B, T, n embd).
 Nevertheless, it is not enough to use token embedding only. Transformer architectures lack knowledge of order information. That is, although the model may have the same characters in different sequences it is not necessarily perceived so. This problem is solved by Position Embedding.
@@ -82,8 +82,8 @@ During position embedding, an additional embedding vector which depicts the loca
 
 This is executed in the code as below:
 
-pos = torch.arange(0, T, dtype=torch.long, device=device)
-pos_emb = self.wpe(pos)
+`pos = torch.arange(0, T, dtype=torch.long, device=device)
+ pos_emb = self.wpe(pos)`
 
 
 
