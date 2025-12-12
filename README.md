@@ -82,8 +82,8 @@ During position embedding, an additional embedding vector which depicts the loca
 
 This is executed in the code as below:
 
-`pos = torch.arange(0, T, dtype=torch.long, device=device)
- pos_emb = self.wpe(pos)`
+`pos = torch.arange(0, T, dtype=torch.long, device=device)`
+`pos_emb = self.wpe(pos)`
 
 
 
