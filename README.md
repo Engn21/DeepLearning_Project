@@ -85,6 +85,11 @@ This is executed in the code as below:
 `pos = torch.arange(0, T, dtype=torch.long, device=device)`
 `pos_emb = self.wpe(pos)`
 
+In this case, pos is an array of position indices (0 to T-1) and wpe self is an array of N empirical vectors of length nembd.
+Once, the token embedding and the position embedding processes have been performed, these two vectors are added as a single representation:
+x = self.drop (tokemb + pos_emb)
+Through this addition, the resulting representation formed of every token contains both the identity of the character and its place in the order. This is followed by the dropout in order to stop overfitting.
+Consequently, by the completion of this phase, the model is presented with a more highly informed input representation that can be used to learn context, to be fed to the Transformer blocks.
 
 
 
