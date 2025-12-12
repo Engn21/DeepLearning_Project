@@ -3,7 +3,7 @@ This project is a character-level GPT (Generative Pre-trained Transformer) langu
 
 The project aims to demonstrate the concepts of modern language models taught in specific courses in a practical way. These are important concepts used in the project, such as Transformer architecture, Causal Self-Attention, Residual Connections, Layer Normalization, and Next-Token Prediction.
 
-# The project's objectives can be explained by the following principles: 
+## The project's objectives can be explained by the following principles: 
 
 -Initially, we mainly aimed to understand and implement a Transformer-based GPT architecture properly as much as possible.
 
