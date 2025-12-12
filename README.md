@@ -55,7 +55,9 @@ Since the inputs here are in string form, tokenization is performed, and tokeniz
 In example:
 
 'O' -> 34
+
 ' ' -> 0
+
 'G' -> 18
 
 At this stage, the model still knows nothing meaningful; tokens has only been converted into numbers.
