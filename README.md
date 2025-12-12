@@ -27,6 +27,7 @@ This data set consists of approximately 1 MB of plain text from Shakespeare's wr
 The model is based on the decoder-only Transformer (GPT) architecture. The structure can be better explained using below order:
 
 Input Characters
+
       ↓
       
 Token Embedding + Position Embedding
