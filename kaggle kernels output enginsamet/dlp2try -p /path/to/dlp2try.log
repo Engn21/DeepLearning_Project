@@ -1,0 +1,106 @@
+8.6s 1 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+8.6s 2 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+8.6s 3 0.00s - to python to disable frozen modules.
+8.6s 4 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+9.3s 5 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+9.3s 6 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+9.3s 7 0.00s - to python to disable frozen modules.
+9.3s 8 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+16.6s 9 Device: cuda
+17.7s 10 Model parameter count: 85.20 Milllion
+22.5s 11 Training is starting (Since the model is so big it might be slow)...
+23.9s 12 Adım 0: Loss 4.2689
+85.6s 13 Adım 100: Loss 3.3463
+156.0s 14 Adım 200: Loss 3.3552
+231.2s 15 Adım 300: Loss 3.3021
+306.3s 16 Adım 400: Loss 3.3524
+381.4s 17 Adım 500: Loss 3.2637
+456.8s 18 Adım 600: Loss 3.2385
+531.9s 19 Adım 700: Loss 3.2255
+606.9s 20 Adım 800: Loss 3.0811
+681.9s 21 Adım 900: Loss 2.9759
+756.9s 22 Adım 1000: Loss 2.8454
+831.9s 23 Adım 1100: Loss 2.7951
+907.0s 24 Adım 1200: Loss 2.7195
+982.0s 25 Adım 1300: Loss 2.6413
+1057.0s 26 Adım 1400: Loss 2.5955
+1132.0s 27 Adım 1500: Loss 2.5619
+1207.0s 28 Adım 1600: Loss 2.5062
+1282.0s 29 Adım 1700: Loss 2.4846
+1356.9s 30 Adım 1800: Loss 2.4628
+1431.8s 31 Adım 1900: Loss 2.4138
+1506.7s 32 Adım 2000: Loss 2.4049
+1581.6s 33 Adım 2100: Loss 2.3361
+1656.6s 34 Adım 2200: Loss 2.2769
+1731.5s 35 Adım 2300: Loss 2.2699
+1806.4s 36 Adım 2400: Loss 2.2359
+1881.4s 37 Adım 2500: Loss 2.2173
+1956.3s 38 Adım 2600: Loss 2.2438
+2031.3s 39 Adım 2700: Loss 2.2175
+2106.3s 40 Adım 2800: Loss 2.0973
+2181.2s 41 Adım 2900: Loss 2.1652
+2256.1s 42 Adım 3000: Loss 2.1173
+2331.0s 43 Adım 3100: Loss 2.0773
+2405.9s 44 Adım 3200: Loss 2.0614
+2480.8s 45 Adım 3300: Loss 2.0643
+2555.8s 46 Adım 3400: Loss 2.0060
+2630.8s 47 Adım 3500: Loss 1.9931
+2705.8s 48 Adım 3600: Loss 1.9977
+2780.8s 49 Adım 3700: Loss 1.9322
+2855.8s 50 Adım 3800: Loss 1.9090
+2930.9s 51 Adım 3900: Loss 1.8927
+3005.9s 52 Adım 4000: Loss 1.8400
+3081.0s 53 Adım 4100: Loss 1.8148
+3156.1s 54 Adım 4200: Loss 1.7749
+3231.3s 55 Adım 4300: Loss 1.8008
+3306.4s 56 Adım 4400: Loss 1.8317
+3381.5s 57 Adım 4500: Loss 1.7394
+3456.6s 58 Adım 4600: Loss 1.7133
+3531.7s 59 Adım 4700: Loss 1.6907
+3606.7s 60 Adım 4800: Loss 1.7174
+3681.9s 61 Adım 4900: Loss 1.6410
+3757.1s 62 Adım 5000: Loss 1.6402
+3832.2s 63 Adım 5100: Loss 1.6219
+3907.5s 64 Adım 5200: Loss 1.6057
+3982.7s 65 Adım 5300: Loss 1.6020
+4057.9s 66 Adım 5400: Loss 1.5810
+4133.0s 67 Adım 5500: Loss 1.6068
+4208.2s 68 Adım 5600: Loss 1.5621
+4283.3s 69 Adım 5700: Loss 1.5240
+4358.5s 70 Adım 5800: Loss 1.5722
+4433.7s 71 Adım 5900: Loss 1.5718
+4508.2s 72 Eğitim tamamlandı. Final Loss: 1.5176
+4508.2s 73 
+4508.2s 74 --- Inference ---
+4513.1s 75 O God, O God!
+4513.1s 76 
+4513.1s 77 LLOUCESTER:
+4513.1s 78 What, what dright!
+4513.1s 79 
+4513.1s 80 ESCALUS:
+4513.1s 81 I shall is so the earth, which a breething is words,
+4513.1s 82 And more as swift prospess a sea man.
+4513.1s 83 
+4513.1s 84 LOMEO:
+4513.1s 85 I'll revember do be many or ear; who may should here,
+4513.1s 86 Betink were no good for your shall be stay.
+4513.1s 87 
+4513.1s 88 HENRY BOLINGBROKE:
+4513.1s 89 Speak so me from so? Barry; your mows, what, say
+4513.1s 90 May your lord recless as all assure all this;
+4513.1s 91 She, at unswer man his brother with speaks.
+4513.1s 92 
+4513.1s 93 EDWARD:
+4513.1s 94 Pet him all the grovost:
+4513.1s 95 And who should knows to the solder's better.
+4513.1s 96 
+4513.1s 97 POMPEY:
+4513.1s 98 I she know he
+4518.9s 99 /usr/local/lib/python3.11/dist-packages/traitlets/traitlets.py:2915: FutureWarning: --Exporter.preprocessors=["remove_papermill_header.RemovePapermillHeader"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.
+4518.9s 100 warn(
+4519.0s 101 [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+4519.3s 102 [NbConvertApp] Writing 17778 bytes to __notebook__.ipynb
+4521.9s 103 /usr/local/lib/python3.11/dist-packages/traitlets/traitlets.py:2915: FutureWarning: --Exporter.preprocessors=["nbconvert.preprocessors.ExtractOutputPreprocessor"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.
+4521.9s 104 warn(
+4522.0s 105 [NbConvertApp] Converting notebook __notebook__.ipynb to html
+4522.8s 106 [NbConvertApp] Writing 321083 bytes to __results__.html
