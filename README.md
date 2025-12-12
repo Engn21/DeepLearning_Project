@@ -38,5 +38,19 @@ Linear (Vocabulary Projection)
       ↓
 Next Character Prediction
 
-###
+### Input Characters
+
+Since the inputs here are in string form, tokenization is performed, and tokenization is achieved at the character level. When considering a sentence like “O God, O God!”, all these letters and spaces correspond to a number in a pre-built dictionary (stoi).
+
+In example:
+
+'O' -> 34
+' ' -> 0
+'G' -> 18
+
+At this stage, the model still knows nothing meaningful; tokens has only been converted into numbers.
+
+### Token Embedding + Position Embedding
+
+
 
