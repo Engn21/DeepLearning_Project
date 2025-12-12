@@ -334,7 +334,7 @@ Residual connections and Layer Normalization are complementary:
 
 Using one without the other leads to instability.
 
-## Transformer Block Flow
+#### Transformer Block Flow
 
 Therefore the procedure can be summarized as below:
 ```
