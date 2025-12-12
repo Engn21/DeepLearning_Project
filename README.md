@@ -28,14 +28,23 @@ The model is based on the decoder-only Transformer (GPT) architecture. The struc
 
 Input Characters
       ↓
+      
 Token Embedding + Position Embedding
+
       ↓
+      
 [ Transformer Block × 12 ]
+
       ↓
+      
 LayerNorm
+
       ↓
+      
 Linear (Vocabulary Projection)
+
       ↓
+      
 Next Character Prediction
 
 ### Input Characters
