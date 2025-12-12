@@ -25,29 +25,22 @@ This data set consists of approximately 1 MB of plain text from Shakespeare's wr
 ## Model Architecture
 
 The model is based on the decoder-only Transformer (GPT) architecture. The structure can be better explained using below order:
-
+```
 Input Characters
-
-      ↓
-      
+      ↓     
 Token Embedding + Position Embedding
 
-      ↓
-      
+      ↓    
 [ Transformer Block × 12 ]
 
-      ↓
-      
+      ↓      
 LayerNorm
 
-      ↓
-      
+      ↓      
 Linear (Vocabulary Projection)
-
-      ↓
-      
+      ↓      
 Next Character Prediction
-
+```
 ### Input Characters
 
 Since the inputs here are in string form, tokenization is performed, and tokenization is achieved at the character level. When considering a sentence like “O God, O God!”, all these letters and spaces correspond to a number in a pre-built dictionary (stoi).
@@ -354,5 +347,38 @@ Residual Add
  ↓
 Output
 ```
+### Feed Forward Network (MLP) Layer
 
+The data coming out of the Attention layer is passed through Layer Normalization again and then enters the Feed Forward Network (MLP) layer:
+```python
+x = x + self.mlp(self.ln2(x))
+```
+
+The MLP processes each token independently and applies non-linear transformations. This layer enables the contextual information gathered by attention to become a deeper and more abstract representation. Here, the dimension is first expanded (n_embd → 4 * n_embd), then reduced again. This structure is standard in Transformer architectures.
+
+Again, the MLP output is added to the input using a residual connection, thus preserving information.
+
+---
+
+### Why Are There 12 Transformer Blocks?
+
+A single Transformer Block can learn context to a limited extent. However, as blocks are stacked:
+
+- **Lower layers** → learn more local relationships
+- **Middle layers** → capture syntactic structures
+- **Top layers** → learn more abstract and semantic relationships
+
+The 12-layer structure used in this project is compatible with the GPT-2 architecture and ensures that the model achieves sufficient contextual depth at the character level.
+
+---
+
+### What Happens at the End of This Stage?
+
+At the end of the [Transformer Block × 12] phase, each character representation in the model's possession becomes:
+
+- Aware of previous characters
+- Context-aware
+- Rich enough to predict the next character
+
+This output is now ready to be sent to the final prediction layer (Final LayerNorm and Linear Projection).
 
