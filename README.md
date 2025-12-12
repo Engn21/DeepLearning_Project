@@ -334,4 +334,25 @@ Residual connections and Layer Normalization are complementary:
 
 Using one without the other leads to instability.
 
+## Transformer Block Flow
+
+Therefore the procedure can be summarized as below:
+```
+Input
+ ↓
+LayerNorm
+ ↓
+Causal Self-Attention
+ ↓
+Residual Add
+ ↓
+LayerNorm
+ ↓
+Feed Forward (MLP)
+ ↓
+Residual Add
+ ↓
+Output
+```
+
 
