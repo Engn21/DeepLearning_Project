@@ -95,5 +95,31 @@ Through this addition, the resulting representation formed of every token contai
 Consequently, by the completion of this phase, the model is presented with a more highly informed input representation that can be used to learn context, to be fed to the Transformer blocks.
 
 ## Transformer Blocks
+After the token embedding and position embedding, we should also observe that the model has numerical representations for each character that contain identity and position information both. However, these representations are still considered as context-independent. 
+
+In other words, at this point, the model has not yet learned how the characters relate to each other. The structure that has been utilized to learn this relationship is the Transformer Blocks that is used sequentially in the model. In this project, a total of 12 Transformer Blocks are stacked on top of each other in identical structures. Each block processes the input a little more to produce a richer and more contextual representation. This structure is defined in the code as follows: 
+
+`self.blocks = nn.ModuleList([Block(n_embd, n_head=n_head) for _ in range(n_layer)])`
+
+and in the forward function:
+
+`for block in self.blocks: x = block(x)`
+
+Thanks to this loop, the same type of Transformer Block is applied 12 times in a row.
+
+### Main Purpose of Transformer Blocks
+
+The fundamental purpose of each Transformer Block is to learn the relationship between each character and the characters that precede it, and to reflect this information in its representation.
+
+This enables the model to learn:
+
+-Which characters frequently appear together
+
+-Which characters gain meaning in which contexts
+
+-Long-range dependencies (For example, the relationship between the beginning and end of a sentence)
+
+Each Transformer Block consists of two main operations: Causal Self-Attention and Feed Forward Network (MLP). These two operations are supported by Layer Normalization and Residual Connections.
+
 
 
