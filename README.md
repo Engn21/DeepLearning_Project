@@ -360,7 +360,7 @@ Again, the MLP output is added to the input using a residual connection, thus pr
 
 ---
 
-### Why Are There 12 Transformer Blocks?
+### Why 12 Transformer blocks?
 
 A single Transformer Block can learn context to a limited extent. However, as blocks are stacked:
 
@@ -372,7 +372,7 @@ The 12-layer structure used in this project is compatible with the GPT-2 archite
 
 ---
 
-### What Happens at the End of This Stage?
+### End of Transformers Block
 
 At the end of the [Transformer Block × 12] phase, each character representation in the model's possession becomes:
 
