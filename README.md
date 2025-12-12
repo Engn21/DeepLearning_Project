@@ -121,5 +121,217 @@ This enables the model to learn:
 
 Each Transformer Block consists of two main operations: Causal Self-Attention and Feed Forward Network (MLP). These two operations are supported by Layer Normalization and Residual Connections.
 
+### Causal Self-Attention
+In each block, the input data first undergoes Layer Normalization and then enters the Causal Self-Attention layer:
+
+`x = x + self.attn(self.ln1(x))`
+At this stage, each character looks at the characters that precede it in the sequence. When constructing the meaning of a character, the model learns which past characters are more important. The term causal means that the model cannot see future characters. This is a fundamental requirement of language modeling.
+Thanks to the self-attention mechanism, the model can learn how, for example, the last letter of a word relates to the letters at the beginning of the word.
+The residual connection (for example, the x + ... operation) ensures that the attention result is added to the input. This prevents information loss and allows deep architectures to be trained healthily.
+
+#### Layer Normalization (LayerNorm)
+
+Layer Normalization is a normalization technique used to stabilize the scale and distribution of inputs to a neural network layer.  
+In essence, it shifts the mean of a vector toward zero and its variance toward one.  
+This stabilization is critical in deep architectures such as Transformers.
+
+In deep Transformer models:
+
+- Some neurons produce very large activations  
+- Others produce very small activations  
+- These imbalances compound across layers  
+
+As a result:
+
+- Training becomes unstable  
+- Gradients may explode or vanish  
+- Learning becomes inefficient or fails  
+
+Layer Normalization mitigates these issues by enforcing consistent activation statistics.
+
+#### Mathematical Definition
+
+Consider the embedding vector of a single token:
+```text
+x = [2.4, -1.2, 0.7, 5.9, -3.1, ...]  (768 dimensions)
+```
+
+Layer Normalization computes:
+
+- The mean $\mu$ over the feature dimension
+- The variance $\sigma^2$ over the feature dimension
+
+Each element is normalized as:
+
+$$\hat{x}_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}}$$
+
+Two learnable parameters are then applied:
+
+- $\gamma$ (scale)
+- $\beta$ (shift)
+
+Resulting in:
+
+$$y_i = \gamma \hat{x}_i + \beta$$
+
+LayerNorm does not remove information; it only regulates the scale of representations.
+
+
+Layer Normalization operates on a single token ans across the embedding (feature) dimension.
+
+It does not depend on batch statistics and other tokens in the sequence
+
+This makes it particularly suitable for Transformer-based NLP models where batch sizes and sequence lengths may vary.
+
+#### Comparison with Batch Normalization
+
+| Batch Normalization | Layer Normalization |
+|---------------------|---------------------|
+| Depends on batch statistics | Independent of batch |
+| Common in computer vision | Standard in NLP |
+| Sensitive to batch size | Batch size invariant |
+
+Transformers therefore rely on Layer Normalization.
+
+#### Usage in Transformer Architecture in the code
+
+Layer Normalization appears in three locations.
+
+##### Pre-Attention Normalization
+```python
+self.ln1 = nn.LayerNorm(n_embd)
+x = x + self.attn(self.ln1(x))
+```
+
+Purpose:
+
+- Stabilize inputs before attention
+- Prevent excessively large attention scores
+
+##### Pre-MLP Normalization
+```python
+self.ln2 = nn.LayerNorm(n_embd)
+x = x + self.mlp(self.ln2(x))
+```
+
+Purpose:
+
+- Provide stable inputs to the MLP
+- Improve behavior of non-linear transformations
+
+##### Final Layer Normalization
+```python
+self.ln_f = nn.LayerNorm(n_embd)
+x = self.ln_f(x)
+```
+
+Purpose:
+
+- Rebalance representations after all Transformer blocks
+- Stabilize the input to the final linear projection
+- Improve logit distribution stability
+
+#### Repeated Application of LayerNorm
+
+In deep models, normalization must be maintained continuously.
+
+- Block-level LayerNorm ensures local stability
+- Final LayerNorm ensures global stability
+
+This repetition is a deliberate architectural choice in Transformer models.
+
+#### Pre-LayerNorm Transformer
+
+The formulation:
+```python
+x = x + self.attn(self.ln1(x))
+```
+
+corresponds to a Pre-LayerNorm Transformer, where normalization is applied before each sub-layer.
+
+Advantages:
+
+- Improved training stability
+- Better gradient flow
+- Enables deeper architectures
+
+This design is standard in GPT-2 and later models.
+
+To sum up, Layer Normalization normalizes token embeddings across the feature dimension, enabling stable and efficient training of deep Transformer architectures.
+
+---
+
+### Residual Add (Residual Connection / Skip Connection)
+
+Residual Add is a structural mechanism that adds a layer's output to its input, preserving information flow across deep networks.
+
+
+Residual connections are defined as:
+
+$$\text{Output} = x + F(x)$$
+
+Where:
+
+- $x$ is the input
+- $F(x)$ is the transformation applied by the layer (e.g., attention or MLP)
+
+This allows the model to augment representations without overwriting existing information. In deep neural networks without residual connections:
+
+- Information degrades across layers
+- Gradients weaken during backpropagation
+- Training deep models becomes impractical
+
+This phenomenon is known as the vanishing gradient problem.
+
+
+Residual connections introduce shortcut paths that:
+
+- Preserve information
+- Enable direct gradient flow
+- Make deep architectures trainable
+
+Each Transformer block contains two major transformations:
+
+1. Self-Attention
+2. Feed Forward Network (MLP)
+
+Both are powerful but potentially destabilizing.
+
+Residual connections allow these transformations to be applied additively rather than destructively.
+
+#### Implementation in Transformer Blocks
+
+##### After Self-Attention
+```python
+x = x + self.attn(self.ln1(x))
+```
+
+The attention output is added to the original input.
+
+##### After MLP
+```python
+x = x + self.mlp(self.ln2(x))
+```
+
+The transformed representation is added while preserving prior information.
+
+#### Information Preservation
+
+Residual connections do not simply copy inputs.
+
+They accumulate information progressively:
+
+- Attention adds contextual information
+- MLP adds feature transformations
+- Residual connections preserve and combine both
+
+#### Interaction with Layer Normalization
+
+Residual connections and Layer Normalization are complementary:
+
+- Residual connections preserve information and gradients
+- Layer Normalization stabilizes magnitude and scale
+
+Using one without the other leads to instability.
 
 
