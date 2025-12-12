@@ -347,7 +347,7 @@ Residual Add
  ↓
 Output
 ```
-### Feed Forward Network (MLP) Layer
+#### Feed Forward Network (MLP) Layer
 
 The data coming out of the Attention layer is passed through Layer Normalization again and then enters the Feed Forward Network (MLP) layer:
 ```python
