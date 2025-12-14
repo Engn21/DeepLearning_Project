@@ -172,7 +172,7 @@ q = q.view(B, T, self.n_head, self.head_size).transpose(1, 2)
 v = v.view(B, T, self.n_head, self.head_size).transpose(1, 2)
 ```
 
-After this transformation, the shapes become $Q, K, V \in \mathbb{R}^{B \times h \times T \times d_h}$, where $h = \text{n\_head} = 8$ and $d_h = C / h = 768 / 8 = 96$ (the dimension per head). Why use multiple heads? Each head can learn to attend to different types of relationships in the data. For instance, in language modeling, one head might focus on syntactic relationships (subject-verb agreement), another on semantic relationships (word meanings in context), and yet another on local character patterns. By running 8 such attention computations in parallel and combining their results, the model gains a much richer understanding of the input than a single attention mechanism could provide.
+After this transformation, the shapes become $Q, K, V \in \mathbb{R}^{B \times h \times T \times d_h}$, where $h = 8$ (number of heads) and $d_h = C / h = 768 / 8 = 96$ (the dimension per head). We are using multiple heads. To better understand it can be explained with such example as, in language modeling, one head might focus on syntactic relationships (subject-verb agreement), another on semantic relationships (word meanings in context), and yet another on local character patterns. By running 8 such attention computations in parallel and combining their results, the model gains a much richer understanding of the input than a single attention mechanism could provide.
 
 ---
 
