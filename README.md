@@ -68,10 +68,13 @@ This is applied in the code line below:
 
 `tok_emb = self.wte(idx)`
 
- In this case, idx is a character ID tensor of size (B, T) and the result of this line is an embedding tensor of size (B, T, n_embd).
-Nevertheless, it is not enough to use token embedding only. Transformer architectures lack knowledge of order information. That is, although the model may have the same characters in different sequences it is not necessarily perceived so. This problem is solved by Position Embedding.
+ where wte = Word Token Embedding. In this case, idx is a character ID tensor of size (B, T) and the result of this line is an embedding tensor of size (B, T, n_embd). And wte was defined like this:
+ 
+ `self.wte = nn.Embedding(vocab_size, n_embd)`
+ 
+Nevertheless, it is not enough to use token embedding only. Transformer architectures lack knowledge of order information. That is, although the model may have the same characters in different sequences, it is not necessarily perceived so. Position Embedding solves this problem.
 
-During position embedding, an additional embedding vector which depicts the location of each character in the sequence is produced. These vectors give the model the position of the character in the sentence. In such a way, the model does not only learn information of the type of which character, but also of the type, where this character is information.
+During position embedding, an additional embedding vector that depicts the location of each character in the sequence is produced. These vectors give the model the position of the character in the sentence. In such a way, the model does not only learn information of the type of which character, but also of the type, where this character is information.
 
 This is executed in the code as below:
 
@@ -79,11 +82,11 @@ This is executed in the code as below:
 `pos_emb = self.wpe(pos)`
 
 In this case, pos is an array of position indices (0 to T-1) and self.wpe is an embedding layer that maps each position to a learnable n_embd-dimensional vector.
-Once, the token embedding and the position embedding processes have been performed, these two vectors are added as a single representation:
+Once the token embedding and the position embedding processes have been performed, these two vectors are added as a single representation:
 
 `x = self.drop(tok_emb + pos_emb)`
 
-Through this addition, the resulting representation formed of every token contains both the identity of the character and its place in the order. This is followed by the dropout in order to stop overfitting.
+where wpe = Word Position Embedding. Through this addition, the resulting representation formed of every token contains both the identity of the character and its place in the order. This is followed by the dropout in order to stop overfitting.
 
 Consequently, by the completion of this phase, the model is presented with a more highly informed input representation that can be used to learn context, to be fed to the Transformer blocks.
 
