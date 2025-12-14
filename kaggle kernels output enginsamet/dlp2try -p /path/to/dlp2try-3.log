@@ -1,0 +1,101 @@
+11.2s 1 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+11.2s 2 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+11.2s 3 0.00s - to python to disable frozen modules.
+11.2s 4 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+11.9s 5 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+11.9s 6 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+11.9s 7 0.00s - to python to disable frozen modules.
+11.9s 8 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+21.8s 9 Device used: cuda
+22.9s 10 Count of mode: 85.20 Milyon
+28.2s 11 Training Starts
+28.2s 12 
+31.5s 13 Step 0: Loss 4.3024
+284.2s 14 Step 100: Loss 3.3170
+543.8s 15 Step 200: Loss 3.2974
+803.4s 16 Step 300: Loss 3.3269
+1062.6s 17 Step 400: Loss 3.3145
+1321.5s 18 Step 500: Loss 3.2800
+1581.4s 19 Step 600: Loss 3.2129
+1841.7s 20 Step 700: Loss 2.9260
+2102.6s 21 Step 800: Loss 2.6276
+2363.5s 22 Step 900: Loss 2.4193
+2624.1s 23 Step 1000: Loss 2.3014
+2884.8s 24 Step 1100: Loss 2.1846
+3145.6s 25 Step 1200: Loss 2.0589
+3407.0s 26 Step 1300: Loss 1.8583
+3668.2s 27 Step 1400: Loss 1.7647
+3929.0s 28 Step 1500: Loss 1.6694
+4190.2s 29 Step 1600: Loss 1.5608
+4451.3s 30 Step 1700: Loss 1.4999
+4712.5s 31 Step 1800: Loss 1.4210
+4974.0s 32 Step 1900: Loss 1.3901
+5235.4s 33 Step 2000: Loss 1.3334
+5496.9s 34 Step 2100: Loss 1.3237
+5758.6s 35 Step 2200: Loss 1.3112
+6019.7s 36 Step 2300: Loss 1.2561
+6280.7s 37 Step 2400: Loss 1.2019
+6542.0s 38 Step 2500: Loss 1.1925
+6803.1s 39 Step 2600: Loss 1.1716
+7064.0s 40 Step 2700: Loss 1.1481
+7324.9s 41 Step 2800: Loss 1.0896
+7585.8s 42 Step 2900: Loss 1.0475
+7847.1s 43 Step 3000: Loss 1.0321
+8108.5s 44 Step 3100: Loss 1.0042
+8369.9s 45 Step 3200: Loss 0.9878
+8631.5s 46 Step 3300: Loss 0.9318
+8893.1s 47 Step 3400: Loss 0.8732
+9154.2s 48 Step 3500: Loss 0.8415
+9415.5s 49 Step 3600: Loss 0.8114
+9677.0s 50 Step 3700: Loss 0.7849
+9938.7s 51 Step 3800: Loss 0.7256
+10199.8s 52 Step 3900: Loss 0.6866
+10461.3s 53 Step 4000: Loss 0.6521
+10722.0s 54 Step 4100: Loss 0.6182
+10982.8s 55 Step 4200: Loss 0.5976
+11243.6s 56 Step 4300: Loss 0.5332
+11504.4s 57 Step 4400: Loss 0.5162
+11765.2s 58 Step 4500: Loss 0.4723
+12025.9s 59 Step 4600: Loss 0.4497
+12286.7s 60 Step 4700: Loss 0.4332
+12547.8s 61 Step 4800: Loss 0.4079
+12808.5s 62 Step 4900: Loss 0.3821
+13069.2s 63 Step 5000: Loss 0.3599
+13330.5s 64 Step 5100: Loss 0.3411
+13591.8s 65 Step 5200: Loss 0.3377
+13853.0s 66 Step 5300: Loss 0.3315
+14114.1s 67 Step 5400: Loss 0.3159
+14375.3s 68 Step 5500: Loss 0.2905
+14636.9s 69 Step 5600: Loss 0.2961
+14898.3s 70 Step 5700: Loss 0.2767
+15159.6s 71 Step 5800: Loss 0.2658
+15421.2s 72 Step 5900: Loss 0.2535
+15680.2s 73 Training Finished. Final Loss: 0.2446
+15680.2s 74 
+15680.2s 75 --- Inference ---
+15684.9s 76 O God, O God! dishonest with this eyes
+15684.9s 77 Of my mind, that boots not to be found:
+15684.9s 78 I do remember what before I spoke to thee.
+15684.9s 79 
+15684.9s 80 QUEEN MARGARET:
+15684.9s 81 What, dost thou scorn me for my gentle counsel?
+15684.9s 82 And soothe the devil that I warn thee from?
+15684.9s 83 O, but remember this another day,
+15684.9s 84 When he shall split thy very heart with sorrow,
+15684.9s 85 And say poor Margaret was a prophetess.
+15684.9s 86 Live each of you the subjects to his hate,
+15684.9s 87 And he to yours, and all of you to God's!
+15684.9s 88 
+15684.9s 89 HASTINGS:
+15684.9s 90 My hair doth stand on end to hear her curses.
+15684.9s 91 
+15684.9s 92 RIVERS:
+15684.9s 93 And so do
+15690.0s 94 /usr/local/lib/python3.11/dist-packages/traitlets/traitlets.py:2915: FutureWarning: --Exporter.preprocessors=["remove_papermill_header.RemovePapermillHeader"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.
+15690.0s 95 warn(
+15690.1s 96 [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+15690.4s 97 [NbConvertApp] Writing 26014 bytes to __notebook__.ipynb
+15692.8s 98 /usr/local/lib/python3.11/dist-packages/traitlets/traitlets.py:2915: FutureWarning: --Exporter.preprocessors=["nbconvert.preprocessors.ExtractOutputPreprocessor"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.
+15692.8s 99 warn(
+15692.9s 100 [NbConvertApp] Converting notebook __notebook__.ipynb to html
+15693.6s 101 [NbConvertApp] Writing 331036 bytes to __results__.html
