@@ -115,18 +115,18 @@ This enables the model to learn:
 Each Transformer Block consists of two main operations: Causal Self-Attention and Feed Forward Network (MLP). These two operations are supported by Layer Normalization and Residual Connections.
 
 ## Causal Self-Attention: 
-Causal Self-Attention is the core mechanism that allows our GPT model to understand context and relationships between characters in a sequence. This section explains how it works in our implementation, connecting the mathematical foundations directly to the code.
+The main mechanism underlying the use of our GPT model to comprehend context and relations between characters in a sequence is Causal Self-Attention. This section describes its implementation in our implementation, relating the mathematical basis to the code.
 
-Within each Transformer Block, the first major operation involves normalizing the input through Layer Normalization and then passing it through the Causal Self-Attention layer. In our code, this entire flow is captured in a single line:
+The first operation in each Transformer Block is the normalization of the input by using Layer Normalization and subsequently running the input through the Causal Self-Attention layer. The following flow is represented in one line of our code:
 ```python
 x = x + self.attn(self.ln1(x))
 ```
 
-Let's break down what this line actually does. First, the current representation `x` is normalized via `self.ln1` to provide a more stable input for the attention mechanism. Then, the normalized input passes through `self.attn(...)`, which gathers contextual information from previous positions in the sequence. Finally, this newly computed information is added back to the original representation through a residual connection, preventing information loss as data flows through the network.
+The first step is that the existing representation, x, is normalized through the use of self.ln1 to give a more stable input to the attention mechanism. The normalized input is then sent through the self.attn(...) which collects contextual data of the past positions in the sequence. Lastly, the newly calculated information is back injected to the original representation by a residual connection avoiding information loss that would be experienced in the flow of data in the network.
 
 ---
 
-The tensor `x` entering this line contains the combined token and positional embeddings. Its shape is $x \in \mathbb{R}^{B \times T \times C}$, where B is the batch size (how many sequences we process in parallel), T is the sequence length (up to `block_size`, which is 128 in our case), and C is the embedding dimension (`n_embd = 768`). In practical terms, each token (character) in our sequence is represented by a 768-dimensional vector that encodes both its identity and its position within the sequence.
+The token and positional embeddings include in the tensor, which is the input to this line, x. Its shape is $x \in \mathbb{R}^{B \times T \times C}$, where B is the batch size (how many sequences we process in parallel), T is the sequence length (up to `block_size`, which is 128 in our case), and C is the embedding dimension (`n_embd = 768`). In practical terms, each token (character) in our sequence is represented by a 768-dimensional vector that encodes both its identity and its position within the sequence.
 
 ---
 
@@ -141,7 +141,7 @@ LayerNorm performs mean-variance normalization independently on each token's emb
 
 $$\text{LN}(x_{b,t,:}) = \gamma \odot \frac{x_{b,t,:} - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta$$
 
-Here, $\mu$ and $\sigma^2$ are computed across the feature (embedding) dimension of that specific token. The learnable parameters $\gamma$ and $\beta$ allow the model to adjust the normalized output as needed. The key insight is that this normalization happens before the attention operation, not after. This architectural choice, known as the "Pre-LN Transformer" design, provides better training stability compared to the original "Post-LN" approach. It ensures that the values entering the attention mechanism have a consistent scale, which helps prevent numerical instabilities during training.
+Here, $\mu$ and $\sigma^2$ are computed across the feature (embedding) dimension of that specific token. The learnable parameters $\gamma$ and $\beta$ allow the model to adjust the normalized output as needed. The most important point is that this normalization occurs not after the operation of attention, but before it. This architectural design is referred to as the Pre-LN Transformer, which offers increased stability of training than its predecessor, the Post-LN design. It makes sure that the values that go in the attention mechanism are on a consistent scale, a factor that prevents numerical instabilities in training.
 
 ---
 
@@ -161,7 +161,7 @@ $Q = XW_Q$, $K = XW_K$, $V = XW_V$,
 
 where $X$ is the LayerNorm output, and $W_Q$, $W_K$, $W_V$ are the learned weight matrices (conceptually separate, but stored together in `self.c_attn` for computational efficiency).
 
-What do Q, K, V represent intuitively? Query (Q) represents "what information am I looking for?" for each token. Key (K) represents "what information do I contain?" for each token. Value (V) represents "what information will I contribute if selected?" for each token. The attention mechanism works by comparing queries against keys to determine relevance, then using those relevance scores to weight the values.
+What is the intuitive meaning of Q, K, V? Query (Q) is a reflection of what information do token require for each token. Key (K) means what information do token contain. for each token. Value (V) is what is going to add to information condition of being chosen for each token. The mechanism of attention operates by matching the queries with keys to get the relevance and then apply the relevance scores to weigh the values.
 
 ---
 
@@ -232,11 +232,11 @@ This concatenates the head outputs and applies a final linear projection. Mathem
 
 ---
 
-Returning to the full Block-level view with `x = x + self.attn(self.ln1(x))`, the residual (skip) connection adds the attention output to the original input. Mathematically, this is $H' = H + \text{Attn}(\text{LN}(H))$. This seemingly simple addition is actually critical to the success of deep transformer models. The residual connection serves two important purposes. First, information preservation: the attention mechanism adds new contextual information without overwriting what was already there, so the original token identity and positional information remain accessible to later layers. Second, gradient flow: during backpropagation, gradients can flow directly through the addition operation, bypassing the attention computation entirely, which creates a "gradient highway" that allows training signals to reach early layers without vanishing. This is essential for training networks as deep as our 12-layer model. Without residual connections, training deep transformers would be practically impossible because the gradients would either vanish (becoming too small to drive learning) or explode (becoming so large they destabilize training) long before reaching the early layers.
+Returning to the full Block-level view with `x = x + self.attn(self.ln1(x))`, the residual (skip) connection adds the attention output to the original input. Mathematically, this is $H' = H + \text{Attn}(\text{LN}(H))$. This addition appears so simple but it is imperative to deep transformer models success. There are two significant roles played by the residual connection. First, human information preservation: the attention mechanism not only adds some new information from the context but has no overwriting effect on the previously already stored information and their original token identity and positions remain available to later layers. Second, gradient flow: at back propagation, gradients can directly flow in the summation operation instead of computing the attention, so the training signals may flow into the earlier layers without vanishing, which presents a "gradient highway". This is necessary to train networks of up to 12 layers as deep as our model. In the absence of residual connections, it would be virtually impossible to train deep transformers due to either the gradients becoming too small (and thus insufficient to cause learning) or becoming too big (and destabilizing training).
 
 ---
 
-In summary, the Causal Self-Attention mechanism transforms each token's representation by allowing it to gather relevant information from all previous positions in the sequence. Through the interplay of queries, keys, and values across multiple heads, the model learns which past tokens are relevant for predicting what comes next. The causal mask ensures the model never "cheats" by looking at future tokens, which is essential for the autoregressive language modeling task. Combined with Layer Normalization for stability and residual connections for trainability, this mechanism forms the foundation of our GPT's ability to generate coherent, Shakespeare-like text.
+In summary, the Causal Self-Attention mechanism causes the representation of each token to change by enabling it to learn relevant information from all previous positions in the sequence. Through the interplay of queries, keys, and values above that is distributed across multiple heads, the model learns what past tokens are important in order to predict what is going to come next. The causal mask ensures "no cheating" by never looking at future tokens because it is essential for the autoregressive language modeling task. Combined with Layer Normalization for stability, and the connection designs for trainability, this is the mechanism that has been utilized to create the basis for how our GPT is able to output coherent, Shakespeare-like text.
 
 
 #### Layer Normalization (LayerNorm)
