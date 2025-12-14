@@ -661,7 +661,7 @@ logits = logits.view(B*T, C)  # Reshape to (B*T, C)
 targets = targets.view(B*T)    # Reshape to (B*T)
 ```
 
-**Why reshape?** PyTorch's cross-entropy function expects:
+**Why we are reshapeing?** PyTorch's cross-entropy function expects:
 - Predictions: a 2D tensor of shape (N, C) where N is the number of samples and C is the number of classes
 - Targets: a 1D tensor of shape (N) containing the correct class indices
 
