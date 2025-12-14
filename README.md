@@ -151,7 +151,15 @@ qkv = self.c_attn(x)                 # Linear: (B, T, C) -> (B, T, 3C)
 q, k, v = qkv.split(self.n_embd, dim=2)
 ```
 
-This is implemented efficiently as a single linear transformation that outputs a tensor three times the embedding size, which is then split into three equal parts. Mathematically, this corresponds to $[Q \; K \; V] = XW + b$, and after splitting: $Q = XW_Q$, $K = XW_K$, $V = XW_V$, where $X$ is the LayerNorm output, and $W_Q$, $W_K$, $W_V$ are the learned weight matrices (conceptually separate, but stored together in `self.c_attn` for computational efficiency).
+This is implemented efficiently as a single linear transformation that outputs a tensor three times the embedding size, which is then split into three equal parts. Mathematically, this corresponds to
+
+$[Q \; K \; V] = XW + b$,
+
+and after splitting:
+
+$Q = XW_Q$, $K = XW_K$, $V = XW_V$,
+
+where $X$ is the LayerNorm output, and $W_Q$, $W_K$, $W_V$ are the learned weight matrices (conceptually separate, but stored together in `self.c_attn` for computational efficiency).
 
 What do Q, K, V represent intuitively? Query (Q) represents "what information am I looking for?" for each token. Key (K) represents "what information do I contain?" for each token. Value (V) represents "what information will I contribute if selected?" for each token. The attention mechanism works by comparing queries against keys to determine relevance, then using those relevance scores to weight the values.
 
