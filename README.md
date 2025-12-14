@@ -113,14 +113,229 @@ This enables the model to learn:
 -Long-range dependencies (For example, the relationship between the beginning and end of a sentence)
 
 Each Transformer Block consists of two main operations: Causal Self-Attention and Feed Forward Network (MLP). These two operations are supported by Layer Normalization and Residual Connections.
+Causal Self-Attention: An in-depth Excursion.
 
-### Causal Self-Attention
-In each block, the input data first undergoes Layer Normalization and then enters the Causal Self-Attention layer:
+The working sense beneath the Causal Self-Attention mechanism is described in our GPT implementation by relating the corresponding mathematical equations with the code.
 
-`x = x + self.attn(self.ln1(x))`
-At this stage, each character looks at the characters that precede it in the sequence. When constructing the meaning of a character, the model learns which past characters are more important. The term causal means that the model cannot see future characters. This is a fundamental requirement of language modeling.
-Thanks to the self-attention mechanism, the model can learn how, for example, the last letter of a word relates to the letters at the beginning of the word.
-The residual connection (for example, the x + ... operation) ensures that the attention result is added to the input. This prevents information loss and allows deep architectures to be trained healthily.
+---
+
+## Overview
+
+In each Transformer Block, the primary step is to standardize the input with Layer Normalization, and subsequently to put it through the layer called Causal Self-Attention. This whole process is summarized in one line of our code:
+```python
+x = x + self.attn(self.ln1(x))
+```
+
+What this line really does is to break down:
+
+1. Existing representation x is normalized through self.ln1 first to ensure that the attention mechanism has a more stable input.
+2. The normalized input is then subjected to self.attn(...) which collects some context information of the preceding positions in the sequence.
+3. This computed new information is finally again added to the original representation using a residual connection to avoid the loss of information as data is passed through the network.
+
+---
+
+The first step is to get to know the shape of the input.
+
+The token and positional embeddings are concatenated in the tensor entering this line, i.e. the value of x. Its shape is:
+
+$$x \in \mathbb{R}^{B \times T \times C}$$
+
+Where:
+
+- **B** denotes the batch size (number of sequences that we process at a time)
+- **T** sequence length (at most block size) (here, 128, i.e. block size of 128)
+where - is embedding dimension (n embd 768 )
+
+Practically speaking, we are dealing with a sequence of tokens (characters) and, thus, a 768-dimensional vector represents both the token itself and its location in the sequence.
+
+---
+
+The Role of LayerNorm (Pre-LN Design): Step 2.
+
+The input is first channeled through the Layer Normalization before the process of attention computation starts:
+```python
+self.ln1 = nn.LayerNorm(n_embd)
+# ...
+self.ln1(x)
+```
+
+The LayerNorm acts by normalizing the mean and the variance of the embedding vectors of each token separately. To compute one token vector x b, t,: The calculation is:
+
+$\text{LN} (x b, t,: ) = - gamma x odot (x b,t,: - mu)/ sq root of sigma 2 + epsilon + b.
+
+In this case, the calculation of mu and s 2 is performed in the feature (embedding) dimension of that particular token. Learnable parameters of the model are the parameters of the model, which can be used to tune the normalized output as required by changing the parameters of the model to the values of the parameters.
+
+The important point is that this normalization does not occur after the operation of attention, but it occurs before. This is an architectural design, which is referred to as the Pre-LN Transformer design, which offers greater training stability than the initial Post-LN approach. It specifies that the values fed into the attention mechanism are of the same scale ensuring that the training process does not have instabilities in terms of numerical values.
+
+---
+
+This step involves the generation of Query, Key and Value vectors.
+
+After the normalized tensor has been fed into the attention layer, the first task will be generating three projections of each token Query (Q), Key (K), and Value (V). In our code:
+```python
+qkv = self.c_attn(x)                 # Linear: (B, T, C) + (B, T, 3C)
+q, k, v = qkv.split(self.n_embd, dim=2)
+```
+
+This is done efficiently as a single linear transformation which gives out a three times larger embedding as a tenor which is further divided into three equal parts. This would be mathematically represented as:
+
+$$[Q \; K \; V] = XW + b$$
+
+After splitting:
+
+$$Q = XW_Q, \quad K = XW_K, \quad V = XW_V$$
+
+In which the LayerNorm output is denoted by $X$, and the learned weight matrices are denoted by $W_Q, W_K, W_V, and are conceptually distinct, but are grouped together in self.c_attn due to computational efficiency.
+
+What are the intuitive meaning of Q, K, V?
+
+- **Query (Q)**: Refers to what information am I seeking? for each token
+- **Key (K)**: Refers to what I know. for each token
+- **Value (V)** This is what information will I bring in case I am picked? for each token
+
+The attention mechanism operates by matching queries with keys to come up with relevance, after which the values are weighted by the relevance scores.
+
+---
+
+Multi-Head Decomposition is the fourth step in the process.
+
+In our model, 8 attention heads are used (n koning 8), so Q, K and V are decomposed into 8 subspaces. The code achieves this by operations of reshape and transpose:
+```python
+k = k.view(B, T, self.n_head, self.head-size)transpose(1, 2).
+q = q.view(B, T, self.n head,self.head size).transpose(1, 2)
+v = v.view(B, T, self.n_head, self.head size).transpose(1 2).
+```
+
+Following this change the shapes are:
+
+Q, K, V are matrices, in the form of B h T dh, in Rd.
+
+Where:
+
+- $h = \text{n\_head} = 8$
+- $d_h = C / h = 768 / 8 = 96$ (the dimension per head)
+
+**Mutilple heads:** All heads can be taught to pay attention to various forms of relationships in the data. In language modeling, as an example, one head could be concerned with syntactic relationships (subject-verb agreement) and the other with semantic relationship (word meanings in context) and another head concerned with local character pattern. With 8 parallel attention computations the results of which are combined by the model, it has a far more useful insight into the input than a single attention mechanism would offer.
+
+---
+
+Calculating Attention Scores (Scaled Dot-Product) Step 5: Calculating Attention Scores (Scaled Dot-Product).
+
+This is followed by the meat of the attention mechanism computing how much each token should pay attention to each other token. This is achieved by a dot product that is scaled:
+```python
+att = (q @ k.transpose(-2, -1)) * (1.0 / (k.size(-1)**0.5))
+```
+
+Mathematically:
+
+$$A = \frac{QK^T}{\sqrt{d_h}}$$
+
+Multiplication of matrices q.transpose (-2, -1) compares the dot product of each query with each key and yields a T T matrix of uncoded attention scores per head and batch element.
+
+**Why we divide by $\sqrt{d_h}$?** This is an important scaling factor that is essential to training stability. When it is absent, with a large head dimension, the dot products may become very large in magnitude. High values have the result of generating very peaked distributions by the ensuing softmax operation (essentially one-hot vectors), and in the process, vanishing gradients. Our scaling down of the network by a factor of the square root of d h makes the dot products fall in a range where softmax is trained more smoothly and effectively.
+
+---
+
+The sixth step is to apply the Causal Mask.
+
+In language modeling, the main limitation is that the model cannot see future characters when it is predicting the next character. Through causal mask this is enforced:
+```python
+att = att.masked fill(att.bias[:,:,:T,:T] = 0, float( - inf ))
+```
+
+The mask is produced in the form of initialisation:
+```python
+self.register_buffer("bias" torch.tril(torch.ones(block_size, block-size))
+                             .view(1, 1, block_size, block_size))
+```
+
+This forms a lower-triangular matrix of ones. We then mask the fill with the masked fill operation, which then fills all the positions where the mask has a value of zero (i.e.: future positions) to negative infinity.
+
+The masked attention scores are mathematically adjusted to:
+
+$A i j = - 1.5 = - 1 = - 2.5 = - 4 = - 5.5 = - 5 = - 6.5 = - 7.5 = - 8.5 = - 9.5 = - 10.5 = - 11.5 = - 12.5 = - 13.5 = - 14.5 = - 15.5 = - 16.5 = - 17.5 = - 18.5 = - 19.5
+
+At position i, only position j 1 = i (the current and all the earlier positions) are visible. Setting the future positions to -inf is a way of making sure that they are set to be precisely equal to zero after the softmax operation, and hence they would be invisible to the model.
+
+**Example: In the case, where the model is working on the 5th character of a sequence, it can only be able to attend to character 1, 2, 3, 4, and 5. Characters 6, 7, 8, etc. are totally out of view, as though they were not there.
+
+---
+
+## Step 7: Softmax Normalization
+
+The attention matrix is masked, and then each row goes through a softmax:
+```python
+att = F.softmax(att, dim=-1)
+```
+
+Mathematically:
+
+$\alpha i, j = e Ai, j)/ e Ai, k Sum k iLess.
+
+This converts the uncoded scores into a probability distribution. The resultant values of alpha i,j will be the answer to the question: at what degree of attention should we pay to token i with the processing of token i?
+
+The weights of attention of each position being the same result, as we divide by the sum of exponentials, over valid positions only (i.e. position number k at most). The causal mask values of $-\infty are made equal to 0 by softmax and do not add to the weighted sum.
+
+---
+
+The next step involves calculating the weight value of values.
+
+Now that the weightes of attention have been obtained we can compute information by taking a weighted sum of the value vectors:
+```python
+y = att @ v  # (B, n_head, T, head_size)
+```
+
+Mathematically, in each position, i:
+
+$$y_i = \sum_{j \leq i} \alpha_{i,j} V_j$$
+
+Such is the essence of what attention is doing. A weighted sum of all tokens which such a token can observe, the weights indicating the learned relevance, is a new representation of this token. A token that is very relevant to the current position makes a larger contribution to the output; irrelevant tokens make lesser contributions.
+
+The representation of each token has been filled with historical information about its background after this operation. The model has successfully been trained to look back and accumulate the concerned information.
+
+---
+
+He 9: Reassembling Heads and Output Projection.
+
+The results of all 8 attention heads must be re-integrated into one representation:
+```python
+y = y.contiguous(1, 2).transpose(B, T, C).
+return self.resid_dropout(self.c_proj(y))
+```
+
+This is used to concatenate the head outputs and a final linear projection is used. Mathematically:
+
+$Y = W O Concatenate(head 1, head 2, head h)
+
+Output projection W O enables the model to learn how to optimally pool the information obtained by the various heads. The dropout used in this case (resid dropout) is used to avoid overfitting, where a few elements are randomly zeroed.
+
+---
+
+The connection that remains is the one between Barbie and Ken.
+
+Going back to the complete Block-level view:
+```python
+x = x + self.attn(self.ln1(x))
+```
+
+The residual (skip) connection combines the attention output with the input. Mathematically:
+
+$$H' = H + \text{Attn}(\text{LN}(H))$$
+
+It is a very minor addition, but it is essential to the success of deep transformer models. The residual connection is used in two significant functions:
+
+1. **Information Preservation**: The attention mechanism does not erase an already existing contextual information, instead, it adds some contextual information. The initial token identity and positional data is still available to subsequent layers.
+
+2. **Gradient Flow: In backpropagation**, it is possible to have gradients flowing directly through the addition operation, and never compute the attention at all. This forms a gradient highway that enables training signals to instead travel to early layers, rather than vanishing, which is required to train networks as deep as our 12-layer one.
+
+It would be practically impossible to train deep transformers without residual connections. The gradients would fade away (becoming too small to cause any learning) or grow to extremely large values (becoming so large as to destabilize training) before reaching the initial layers.
+
+---
+To Sum up,
+
+The representation of every token is converted by the Causal Self-Attention mechanism, which enables the representation of every token to collect relevant information based on all past positions of the sequence. The model learns by interaction between queries, keys and values across numerous heads which past tokens are needed to predict the next one.
+
+This is necessary to avoid the autoregressive language modeling model cheating: the causal mask makes sure that the model will never peep at the future tokens. Together with Layer normalization to achieve stability and residual connections to achieve trainability, this mechanism is the basis of our GPT being able to generate coherent, Shakespeare-like text.
 
 #### Layer Normalization (LayerNorm)
 
