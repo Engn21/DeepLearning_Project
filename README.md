@@ -611,7 +611,7 @@ Mathematically, this operation is:
 
 $$\text{logits} = xW^T$$
 
-where $W \in \mathbb{R}^{\text{vocab\_size} \times \text{n\_embd}}$ is the weight matrix, and logits $\in \mathbb{R}^{B \times T \times \text{vocab\_size}}$.
+where $W \in \mathbb{R}^{vocab\_size \times n\_embd}$ is the weight matrix, and logits $\in \mathbb{R}^{B \times T \times vocab\_size}$.
 
 For each position in the sequence, the model produces a vector of 65 numbers (one for each character in our vocabulary). These numbers, called logits, represent the model's raw, unnormalized predictions about which character should come next.
 
