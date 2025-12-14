@@ -466,17 +466,87 @@ Output
 ```
 #### Feed Forward Network (MLP) Layer
 
-The data coming out of the Attention layer is passed through Layer Normalization again and then enters the Feed Forward Network (MLP) layer:
+The representation coming out of the Causal Self-Attention stage now contains contextual information gathered from previous tokens for each position. At this point, the model has learned the relationships between tokens, but this information has not yet been deeply processed. The goal now is to enrich this contextual information through non-linear transformations, and this is exactly what the Feed Forward Network (MLP) accomplishes.
+
+This is why every Transformer Block contains an MLP layer right after the attention mechanism. In our code, this transition is captured in a single, clear line:
 ```python
 x = x + self.mlp(self.ln2(x))
 ```
 
-The MLP processes each token independently and applies non-linear transformations. This layer enables the contextual information gathered by attention to become a deeper and more abstract representation. Here, the dimension is first expanded (n_embd → 4 * n_embd), then reduced again. This structure is standard in Transformer architectures.
-
-Again, the MLP output is added to the input using a residual connection, thus preserving information.
+This line summarizes everything that happens in the MLP stage. The current representation `x` first passes through Layer Normalization, then gets processed by the MLP, and finally gets added back to the original representation through a residual connection. This design is a deliberate and standard choice in Transformer architectures.
 
 ---
 
+The tensor `x` entering the MLP has shape $B \times T \times C$. At this point, each token no longer carries just "which character it is" but also "how it relates to previous characters" thanks to the attention mechanism. However, this information consists of linear combinations. The fundamental purpose of the MLP is to transform this information non-linearly to obtain a more abstract and powerful representation.
+
+---
+
+Before entering the MLP, Layer Normalization is applied to stabilize the distribution that formed after attention and residual addition. Mathematically, LayerNorm normalizes each token vector across its embedding dimension. This step ensures numerical stability at the MLP input and makes stable training possible, especially in deep Transformer architectures. In the code, this normalization is done with:
+```python
+self.ln2 = nn.LayerNorm(n_embd)
+```
+
+---
+
+The vectors coming out of LayerNorm then enter the first linear layer of the MLP. This layer temporarily expands the embedding dimension by a factor of four. In other words, for each token, a vector of dimension $C$ is transformed into a vector of dimension $4C$. Mathematically, this operation is:
+
+$$h = xW_1 + b_1$$
+
+The purpose of this expansion is to enlarge the representation space so the model can learn more complex patterns. This "expand first, then contract" approach is standard in Transformer architectures. By projecting into a higher-dimensional space, the network gains the capacity to represent more intricate functions and relationships that would be impossible to capture in the original dimension.
+
+---
+
+This expanded representation then passes through the GELU activation function. GELU provides a non-linearity that softly suppresses small and uncertain signals while allowing strong signals to pass through. This enables the model to transform the information from attention in a more flexible and meaningful way. In the code, this step is clearly visible:
+```python
+nn.GELU()
+```
+
+Why GELU instead of ReLU? Unlike ReLU which has a hard cutoff at zero, GELU provides a smooth transition. This means that slightly negative values are not completely zeroed out but are dampened proportionally. This smoother behavior leads to better gradient flow during training and has been shown to work particularly well in Transformer-based language models.
+
+---
+
+The representation coming out of GELU is then reduced back to the original embedding dimension in the second linear layer of the MLP. This operation is mathematically expressed as:
+
+$$\text{MLP}(x) = \text{GELU}(xW_1 + b_1)W_2 + b_2$$
+
+The purpose here is to ensure the MLP output has the appropriate dimension to be added to the input through the residual connection. The complete MLP structure in the code looks like this:
+```python
+class MLP(nn.Module):
+    def __init__(self, n_embd):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(n_embd, 4 * n_embd),
+            nn.GELU(),
+            nn.Linear(4 * n_embd, n_embd),
+            nn.Dropout(dropout),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+```
+
+---
+
+After this transformation, dropout is applied. Dropout randomly deactivates some neurons during training, preventing the model from memorizing specific pathways. This step makes the MLP's learning process more generalizable. In the code, this is a natural part of the MLP block:
+```python
+nn.Dropout(dropout)
+```
+
+With a dropout rate of 0.1 in our implementation, 10% of the neurons are randomly set to zero during each training step. This forces the network to develop redundant representations, ensuring that no single neuron becomes too critical for the final output.
+
+---
+
+Finally, the output produced by the MLP is added to the post-attention representation through the residual connection. This operation reflects one of the most important principles of the Transformer architecture: new information is added, old information is not erased. Mathematically, this step is expressed as:
+
+$$H^{(l+1)} = H' + \text{MLP}(\text{LN}(H'))$$
+
+where $H'$ is the post-attention representation.
+
+---
+
+Through this design, the model progressively enriches information in each Transformer Block. While attention learns the relationships between tokens, the MLP processes the information extracted from these relationships, abstracts it, and increases the representational power. The residual connections and Layer Normalization ensure that this process continues without degradation even in deep architectures.
+
+The division of labor between attention and MLP is worth emphasizing: attention is responsible for communication between tokens (deciding which tokens should influence which), while the MLP is responsible for computation within each token (transforming the gathered information into more useful features). Together, they form the complete Transformer Block that gets repeated 12 times in our model.
 ### Why 12 Transformer blocks?
 
 A single Transformer Block can learn context to a limited extent. However, as blocks are stacked:
