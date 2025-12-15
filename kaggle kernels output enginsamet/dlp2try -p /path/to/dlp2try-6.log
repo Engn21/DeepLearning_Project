@@ -1,0 +1,138 @@
+7.9s 1 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+7.9s 2 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+7.9s 3 0.00s - to python to disable frozen modules.
+7.9s 4 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+8.5s 5 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+8.5s 6 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+8.5s 7 0.00s - to python to disable frozen modules.
+8.5s 8 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+15.6s 9 Device used: cuda
+16.6s 10 Count of mode: 85.20 Million87
+21.1s 11 Training Starts
+21.1s 12 
+24.1s 13 Step 0: Loss 4.3389
+288.1s 14 Step 100: Loss 3.3159
+566.7s 15 Step 200: Loss 3.2932
+844.6s 16 Step 300: Loss 3.2977
+1123.6s 17 Step 400: Loss 3.3222
+1402.8s 18 Step 500: Loss 3.2993
+1682.9s 19 Step 600: Loss 3.2470
+1963.7s 20 Step 700: Loss 3.0757
+2243.1s 21 Step 800: Loss 2.7024
+2523.8s 22 Step 900: Loss 2.4754
+2804.7s 23 Step 1000: Loss 2.3415
+3085.6s 24 Step 1100: Loss 2.2456
+3366.1s 25 Step 1200: Loss 2.0942
+3647.4s 26 Step 1300: Loss 1.9609
+3928.3s 27 Step 1400: Loss 1.8399
+4208.9s 28 Step 1500: Loss 1.6859
+4489.7s 29 Step 1600: Loss 1.5988
+4771.0s 30 Step 1700: Loss 1.5089
+5053.2s 31 Step 1800: Loss 1.4133
+5334.6s 32 Step 1900: Loss 1.4145
+5616.5s 33 Step 2000: Loss 1.3783
+5898.1s 34 Step 2100: Loss 1.3334
+6179.5s 35 Step 2200: Loss 1.3063
+6460.7s 36 Step 2300: Loss 1.2776
+6742.6s 37 Step 2400: Loss 1.2338
+7023.8s 38 Step 2500: Loss 1.1921
+7304.9s 39 Step 2600: Loss 1.1675
+7586.9s 40 Step 2700: Loss 1.1189
+7868.5s 41 Step 2800: Loss 1.1092
+8149.3s 42 Step 2900: Loss 1.0865
+8429.6s 43 Step 3000: Loss 1.0804
+8710.8s 44 Step 3100: Loss 1.0195
+8992.3s 45 Step 3200: Loss 0.9677
+9273.4s 46 Step 3300: Loss 0.9461
+9554.5s 47 Step 3400: Loss 0.9125
+9835.6s 48 Step 3500: Loss 0.8691
+10116.3s 49 Step 3600: Loss 0.8156
+10397.1s 50 Step 3700: Loss 0.7850
+10677.8s 51 Step 3800: Loss 0.7481
+10958.6s 52 Step 3900: Loss 0.7102
+11239.4s 53 Step 4000: Loss 0.6762
+11520.5s 54 Step 4100: Loss 0.6283
+11801.6s 55 Step 4200: Loss 0.5888
+12082.9s 56 Step 4300: Loss 0.5842
+12365.0s 57 Step 4400: Loss 0.5216
+12646.6s 58 Step 4500: Loss 0.4902
+12927.5s 59 Step 4600: Loss 0.4819
+13208.2s 60 Step 4700: Loss 0.4216
+13488.7s 61 Step 4800: Loss 0.3932
+13769.4s 62 Step 4900: Loss 0.4030
+14050.3s 63 Step 5000: Loss 0.3701
+14332.9s 64 Step 5100: Loss 0.3514
+14613.9s 65 Step 5200: Loss 0.3300
+14895.9s 66 Step 5300: Loss 0.3300
+15177.1s 67 Step 5400: Loss 0.3169
+15458.3s 68 Step 5500: Loss 0.3064
+15740.7s 69 Step 5600: Loss 0.2940
+16022.9s 70 Step 5700: Loss 0.2907
+16304.1s 71 Step 5800: Loss 0.2786
+16585.9s 72 Step 5900: Loss 0.2598
+16867.8s 73 Step 6000: Loss 0.2576
+17149.2s 74 Step 6100: Loss 0.2598
+17430.6s 75 Step 6200: Loss 0.2447
+17711.9s 76 Step 6300: Loss 0.2526
+17992.6s 77 Step 6400: Loss 0.2295
+18273.3s 78 Step 6500: Loss 0.2382
+18554.3s 79 Step 6600: Loss 0.2329
+18836.2s 80 Step 6700: Loss 0.2270
+19118.1s 81 Step 6800: Loss 0.2254
+19400.0s 82 Step 6900: Loss 0.2143
+19681.8s 83 Step 7000: Loss 0.2105
+19963.8s 84 Step 7100: Loss 0.2133
+20246.1s 85 Step 7200: Loss 0.2084
+20528.1s 86 Step 7300: Loss 0.2101
+20809.1s 87 Step 7400: Loss 0.2160
+21091.2s 88 Step 7500: Loss 0.2095
+21372.5s 89 Step 7600: Loss 0.2097
+21655.3s 90 Step 7700: Loss 0.2070
+21937.9s 91 Step 7800: Loss 0.2027
+22219.5s 92 Step 7900: Loss 0.1999
+22501.2s 93 Step 8000: Loss 0.1977
+22782.4s 94 Step 8100: Loss 0.1882
+23064.1s 95 Step 8200: Loss 0.1978
+23345.4s 96 Step 8300: Loss 0.1896
+23628.2s 97 Step 8400: Loss 0.1925
+23910.8s 98 Step 8500: Loss 0.1926
+24193.2s 99 Step 8600: Loss 0.1944
+24475.5s 100 Step 8700: Loss 0.1820
+24753.8s 101 Step 8800: Loss 0.1925
+25035.3s 102 Step 8900: Loss 0.1857
+25316.2s 103 Step 9000: Loss 0.1865
+25597.5s 104 Step 9100: Loss 0.1758
+25878.9s 105 Step 9200: Loss 0.1758
+26160.3s 106 Step 9300: Loss 0.1839
+26441.5s 107 Step 9400: Loss 0.1799
+26722.4s 108 Step 9500: Loss 0.1813
+27003.4s 109 Step 9600: Loss 0.1667
+27285.3s 110 Step 9700: Loss 0.1796
+27566.9s 111 Step 9800: Loss 0.1698
+27849.4s 112 Step 9900: Loss 0.1759
+28127.8s 113 Training Finished. Final Loss: 0.1665
+28127.8s 114 
+28127.8s 115 --- Inference ---
+28132.4s 116 O God, O God! that e'er this tongue of mine,
+28132.4s 117 That laid the sentence of dread banishment
+28132.4s 118 On yon proud man, should take it off again
+28132.4s 119 With words of sooth! O that I were as great
+28132.4s 120 As is my grief, or lesser than my name!
+28132.4s 121 Or that I could forget what I have been,
+28132.4s 122 Or not remember what I must be now!
+28132.4s 123 Swell'st thou, proud heart? I'll give thee scope to beat,
+28132.4s 124 Since foes have scope to beat both thee and me.
+28132.4s 125 
+28132.4s 126 DUKE OF AUMERLE:
+28132.4s 127 Northumberland comes back from Bolingbroke.
+28132.4s 128 
+28132.4s 129 KING RICHARD II:
+28132.4s 130 What must the king do now? must he
+28136.8s 131 /usr/local/lib/python3.11/dist-packages/traitlets/traitlets.py:2915: FutureWarning: --Exporter.preprocessors=["remove_papermill_header.RemovePapermillHeader"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.
+28136.8s 132 warn(
+28136.9s 133 [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+28137.2s 134 [NbConvertApp] Writing 31059 bytes to __notebook__.ipynb
+28139.6s 135 /usr/local/lib/python3.11/dist-packages/traitlets/traitlets.py:2915: FutureWarning: --Exporter.preprocessors=["nbconvert.preprocessors.ExtractOutputPreprocessor"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.
+28139.6s 136 warn(
+28139.6s 137 [NbConvertApp] Converting notebook __notebook__.ipynb to html
+28140.3s 138 [NbConvertApp] Writing 336438 bytes to __results__.html
